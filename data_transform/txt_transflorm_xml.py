@@ -144,7 +144,7 @@ def parse_txt(file_dir, file_name):
         # lineArr = line.strip().split(', ')
         lineArr = line.split(' ')
         label_name = str(lineArr[0])
-        points.append([label_name, float(lineArr[1]),float(lineArr[2]), float(lineArr[3]),float(lineArr[4])])
+        points.append([label_name, str(int(eval(lineArr[1]))),str(int(eval(lineArr[2]))), str(int(eval(lineArr[3]))),str(int(eval(lineArr[4])))])
     return points
 
 def main(txt_path, xml_path, raw_image_path):

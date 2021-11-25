@@ -625,10 +625,10 @@ class Txt2Xml(QWidget):
                 coordis = tx.parse_txt(txt_path, i)
                 for index in coordis:
                     xml_anno.add_object(name_text_str=str(index[0]),
-                                xmin_text_str= str(int(index[1])),
-                                ymin_text_str= str(int(index[2])),
-                                xmax_text_str= str(int(index[3])),
-                                ymax_text_str= str(int(index[4])))
+                                xmin_text_str= index[1],
+                                ymin_text_str= index[2],
+                                xmax_text_str= index[3],
+                                ymax_text_str= index[4])
                 save_xml_path = os.path.join(xml_path, i.replace(".txt", ".xml"))
                 save_xml_path = save_xml_path.replace("\\", "/")
                 xml_anno.save_doc(save_xml_path)
