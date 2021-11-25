@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from genericpath import exists
 import sys
 import os
 root_path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
@@ -587,32 +588,51 @@ class Txt2Xml(QWidget):
         txt_path = txt_path.replace("\\", "/")
         xml_path = xml_path.replace("\\", "/")
         raw_image_path = raw_image_path.replace("\\", "/")
-        self.reviewEdit.append("<font color=\"#0000FF\">转换开始</font> ")
-        path_txt = os.listdir(txt_path)
-        for i in path_txt:
-            name = (i.split('.'))[0]
-            jpg_name = name+".jpg"
-            image_path = os.path.join(raw_image_path, jpg_name)
-            image_path = image_path.replace("\\", "/")
-            image = cv2.imread(image_path)
-            height = image.shape[0]
-            width = image.shape[1]
-        
-            xml_anno = tx.CreateAnno()
-            xml_anno.add_filename(image_path)
-            xml_anno.add_pic_size(width_text_str=str(width), height_text_str=str(height), depth_text_str=str(3))
-            coordis = tx.parse_txt(txt_path, i)
-            for index in coordis:
-                xml_anno.add_object(name_text_str=str(index[4]),
-                                    xmin_text_str=str(int(index[0])),
-                                    ymin_text_str=str(int(index[1])),
-                                    xmax_text_str=str(int(index[2])),
-                                    ymax_text_str=str(int(index[3])))
-            save_xml_path = os.path.join(xml_path, i.replace(".txt", ".xml"))
-            save_xml_path = save_xml_path.replace("\\", "/")
-            xml_anno.save_doc(save_xml_path)
-            self.reviewEdit.append(save_xml_path)
+        self.reviewEdit.append("<font color=\"#0000FF\">转换开始</font> ") 
+        for i in tqdm(os.listdir(txt_path)):
+            if exists(os.path.join(raw_image_path, i.replace('.txt', '.jpg'))):
+                image_path = os.path.join(raw_image_path, i.replace('.txt', '.jpg'))
+                image_path = image_path.replace("\\", "/")
+                image = cv2.imread(image_path)
+                height = image.shape[0]
+                width = image.shape[1]
             
+                xml_anno = tx.CreateAnno()
+                xml_anno.add_filename(image_path)
+                xml_anno.add_pic_size(width_text_str=str(width), height_text_str=str(height), depth_text_str=str(3))
+                coordis = tx.parse_txt(txt_path, i)
+                for index in coordis:
+                    xml_anno.add_object(name_text_str=str(index[4]),
+                                        xmin_text_str=str(int(index[0])),
+                                        ymin_text_str=str(int(index[1])),
+                                        xmax_text_str=str(int(index[2])),
+                                        ymax_text_str=str(int(index[3])))
+                save_xml_path = os.path.join(xml_path, i.replace(".txt", ".xml"))
+                save_xml_path = save_xml_path.replace("\\", "/")
+                xml_anno.save_doc(save_xml_path)
+                self.reviewEdit.append(save_xml_path)
+            
+            elif exists(os.path.join(raw_image_path, i.replace('.txt', '.bmp'))):
+                image_path = os.path.join(raw_image_path, i.replace('.txt', '.bmp'))
+                image_path = image_path.replace("\\", "/")
+                image = cv2.imread(image_path)
+                height = image.shape[0]
+                width = image.shape[1]
+            
+                xml_anno = tx.CreateAnno()
+                xml_anno.add_filename(image_path)
+                xml_anno.add_pic_size(width_text_str=str(width), height_text_str=str(height), depth_text_str=str(3))
+                coordis = tx.parse_txt(txt_path, i)
+                for index in coordis:
+                    xml_anno.add_object(name_text_str=str(index[4]),
+                                        xmin_text_str=str(int(index[0])),
+                                        ymin_text_str=str(int(index[1])),
+                                        xmax_text_str=str(int(index[2])),
+                                        ymax_text_str=str(int(index[3])))
+                save_xml_path = os.path.join(xml_path, i.replace(".txt", ".xml"))
+                save_xml_path = save_xml_path.replace("\\", "/")
+                xml_anno.save_doc(save_xml_path)
+                self.reviewEdit.append(save_xml_path)
         self.reviewEdit.append("<font color=\"#0000FF\">转换完成！！！</font> ")
 
     def closeEvent(self, event):

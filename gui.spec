@@ -5,7 +5,7 @@ block_cipher = None
 
 
 a = Analysis(['gui.py'],
-             pathex=['F:/InstallSoftware/Anaconda3/envs/gui/Lib/site-packages/cv2'],
+             pathex=['F:\\InstallSoftware\\Anaconda3\\envs\\gui\\Lib\\site-packages\\cv2'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -33,7 +33,7 @@ exe = EXE(pyz,
           upx=True,
           upx_exclude=[],
           runtime_tmpdir=None,
-          console=False,
+          console=True,
           disable_windowed_traceback=False,
           target_arch=None,
           codesign_identity=None,

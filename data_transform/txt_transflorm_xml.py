@@ -3,6 +3,8 @@ from xml.dom.minidom import Document
 import sys
 import os
 import cv2
+from tqdm import tqdm
+from genericpath import exists
 
 
 class CreateAnno:
@@ -144,7 +146,6 @@ def parse_txt(file_dir, file_name):
         label_name = lineArr[0]
         points.append([float(lineArr[1]),float(lineArr[2]), float(lineArr[3]),float((lineArr[-1]).split("\n")[0]), int(label_name)])
     return points
-
 
 def main(txt_path, xml_path, raw_image_path):
     if not os.path.exists(xml_path):

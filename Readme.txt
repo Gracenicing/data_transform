@@ -5,7 +5,7 @@ note1:
     # -F表示每次生成的exe覆盖之前的打包的exe
     # -w表示打包不包括控制台
     # --icon使用自己制作的.ico图标
-    Pyinstaller -F -w --icon=C:/data_convert_tool/gui/pics/favicon.ico gui.py
+    Pyinstaller -F --icon=C:/data_convert_tool/gui/pics/favicon.ico gui.py
 
 note2:
     直接在main.exe文件下，使用cmd控制台运行main.exe, 可以看到bug
