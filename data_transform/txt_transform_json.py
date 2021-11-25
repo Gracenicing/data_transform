@@ -8,7 +8,8 @@ import os
 import cv2
 import numpy as np
 import sys
-  
+
+
 def generate_json(file_dir,file_name, raw_image_path):
     str_json = {}
     shapes = []

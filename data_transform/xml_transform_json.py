@@ -8,6 +8,8 @@ import cv2
 import io
 import base64
 from xml.dom.minidom import Document
+from genericpath import exists
+
 
 def create_xml_anno():
     doc = Document()  #创建DOM文档对象
@@ -189,15 +191,26 @@ def generate_json(file_dir,file_name, raw_image_path):
     str_json["shapes"] = shapes
     # str_json["lineColor"] = [0, 255, 0, 128]
     # str_json["fillColor"] = [255, 0, 0, 128]
-    picture_basename = file_name.replace('.xml', '.jpg')
-    image_path = os.path.join(raw_image_path, picture_basename)
-    image_path = image_path.replace("\\", "/")
-    str_json["imagePath"] = picture_basename
-    img = cv2.imread(image_path)
-    str_json["imageHeight"] = img.shape[0]
-    str_json["imageWidth"] = img.shape[1]
-    str_json["imageData"] = base64encode_img(image_path)
-    return str_json
+    if exists(os.path.join(raw_image_path, file_name.replace('.xml', '.jpg'))):
+        picture_basename = file_name.replace('.xml', '.jpg')
+        image_path = os.path.join(raw_image_path, file_name.replace('.xml', '.jpg'))
+        image_path = image_path.replace("\\", "/")
+        str_json["imagePath"] = picture_basename
+        img = cv2.imread(image_path)
+        str_json["imageHeight"] = img.shape[0]
+        str_json["imageWidth"] = img.shape[1]
+        str_json["imageData"] = base64encode_img(image_path)
+        return str_json
+    elif exists(os.path.join(raw_image_path, file_name.replace('.xml', '.bmp'))):
+        picture_basename = file_name.replace('.xml', '.bmp')
+        image_path = os.path.join(raw_image_path, file_name.replace('.xml', '.bmp'))
+        image_path = image_path.replace("\\", "/")
+        str_json["imagePath"] = picture_basename
+        img = cv2.imread(image_path)
+        str_json["imageHeight"] = img.shape[0]
+        str_json["imageWidth"] = img.shape[1]
+        str_json["imageData"] = base64encode_img(image_path)
+        return str_json
  
 def base64encode_img(image_path):
     src_image = Image.open(image_path)
