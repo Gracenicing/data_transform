@@ -143,8 +143,8 @@ def parse_txt(file_dir, file_name):
     for line in fr.readlines():  # 逐行读取，滤除空格等
         # lineArr = line.strip().split(', ')
         lineArr = line.split(' ')
-        label_name = lineArr[0]
-        points.append([float(lineArr[1]),float(lineArr[2]), float(lineArr[3]),float((lineArr[-1]).split("\n")[0]), int(label_name)])
+        label_name = str(lineArr[0])
+        points.append([label_name, float(lineArr[1]),float(lineArr[2]), float(lineArr[3]),float(lineArr[4])])
     return points
 
 def main(txt_path, xml_path, raw_image_path):
@@ -165,11 +165,11 @@ def main(txt_path, xml_path, raw_image_path):
         xml_anno.add_pic_size(width_text_str=str(width), height_text_str=str(height), depth_text_str=str(3))
         coordis = parse_txt(txt_path, i)
         for index in coordis:
-            xml_anno.add_object(name_text_str=str(index[4]),
-                                xmin_text_str=str(int(index[0])),
-                                ymin_text_str=str(int(index[1])),
-                                xmax_text_str=str(int(index[2])),
-                                ymax_text_str=str(int(index[3])))
+            xml_anno.add_object(name_text_str=str(index[0]),
+                                xmin_text_str= index[1],
+                                ymin_text_str= index[2],
+                                xmax_text_str= index[3],
+                                ymax_text_str= index[4])
         save_xml_path = os.path.join(xml_path, i.replace(".txt", ".xml"))
         xml_anno.save_doc(save_xml_path)
 
